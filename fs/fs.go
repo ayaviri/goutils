@@ -11,7 +11,7 @@ import (
 )
 
 func InitialiseServer(port int64, servingDirectoryEnvvar string) {
-	var SERVING_DIRECTORY string = os.Getenv("SERVING_DIRECTORY")
+	var SERVING_DIRECTORY string = os.Getenv(servingDirectoryEnvvar)
 
 	if SERVING_DIRECTORY == "" {
 		log.Fatalf("Read empty serving directory name")
