@@ -8,6 +8,8 @@ import (
 	"os"
 
 	"github.com/gorilla/handlers"
+
+	xhttp "github.com/ayaviri/goutils/http"
 )
 
 func InitialiseServer(port int64, servingDirectoryEnvvar string) {
@@ -18,7 +20,12 @@ func InitialiseServer(port int64, servingDirectoryEnvvar string) {
 	}
 
 	loggingHandler := newLoggingHandler(os.Stdout)
-	http.Handle("/", loggingHandler(http.FileServer(http.Dir(SERVING_DIRECTORY))))
+	http.Handle(
+		"/",
+		loggingHandler(
+			xhttp.StripQueryString(http.FileServer(http.Dir(SERVING_DIRECTORY))),
+		),
+	)
 	http.ListenAndServe(fmt.Sprintf(":%d", port), nil)
 }
 
